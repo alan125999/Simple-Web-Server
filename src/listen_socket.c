@@ -28,7 +28,7 @@ int listen_socket(int port) {
 		perror("bind");
 		return -1;
 	}
-    listen(fd_listen, MAX_CONN);
+    ret = listen(fd_listen, MAX_CONN);
 	if(ret < 0){
 		perror("listen");
 		return -1;

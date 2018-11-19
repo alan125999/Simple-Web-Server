@@ -16,10 +16,14 @@ int main(){
 	fd_set readfds, allfds;
 
 	// Set Workspace
-    chdir("../site");
-	
+    if(chdir("../site") == -1) {
+        perror("chdir");
+        return -1;
+    }
+
     // Create socket
     fd_listen=listen_socket(PORT);
+    if(fd_listen < 0) return -1;
 	
 	// Init fd set
 	FD_ZERO(&allfds);

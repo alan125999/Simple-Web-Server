@@ -38,7 +38,7 @@ int serve_http(int fd_accept)
 	// Read Request Header
 	ret = read(fd_accept, buffer, BUFSIZE);
 	if(ret <= 0) {
-		perror("Read Reqest");
+		perror("Read Request");
 		return -1;
 	}
 	buffer[ret] = '\0';
@@ -50,7 +50,7 @@ int serve_http(int fd_accept)
 	}
 	
 	// cut string, only GET xxx remaining
-    for(i=4;i<BUFSIZE;i++) {
+    for(i=4; i<BUFSIZE; i++) {
         if(buffer[i] == ' ') {
             buffer[i] = '\0';
             break;

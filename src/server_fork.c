@@ -8,7 +8,7 @@
 #include "serve_http.h"
 #include "listen_socket.h"
 
-#define PORT 8787
+
 
 void handler_SIGCHLD(int signo)
 {
@@ -21,19 +21,23 @@ void handler_SIGCHLD(int signo)
 
 
 
-int main(){
+int main(int argc, char *argv[]){
     int fd_listen, fd_accept, pid;
     struct sockaddr_in addr_client;
     socklen_t addrlen;
 
     // Set Workspace
-    chdir("../site");
+    if(chdir("../site") == -1) {
+        perror("chdir");
+        return -1;
+    }
 
 	// Set signal handler to prevent zombie
 	signal(SIGCHLD, handler_SIGCHLD);
 
     // Create Socket
 	fd_listen=listen_socket(PORT);
+    if(fd_listen < 0) return -1;
     
 	// Accept Client
 	addrlen = sizeof(addr_client);
