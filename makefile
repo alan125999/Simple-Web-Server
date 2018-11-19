@@ -15,12 +15,12 @@ all: ${DIR_CREATE} ${BIN_TARGET}
 
 ${DIR_CREATE}:
 	mkdir $@
-	
+
 ${DIR_BIN}/server_fork:${OBJ}
-	$(CC) $(subst server_select,,${OBJ}) -o ${BIN_TARGET}
+	$(CC) $(subst ${DIR_SRC}/server_select.o,,${OBJ}) -o ${BIN_TARGET}
 
 ${DIR_BIN}/server_select:${OBJ}
-	$(CC) $(subst server_fork,,${OBJ}) -o ${BIN_TARGET}
+	$(CC) $(subst ${DIR_SRC}/server_fork.o,,${OBJ}) -o ${BIN_TARGET}
 
 ${DIR_OBJ}/%.o:${DIR_SRC}/%.c
 	$(CC) $(CFLAGS) -c  $< -o $@
