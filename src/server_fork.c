@@ -28,9 +28,8 @@ void handler_SIGCHLD(int signo)
 
 
 int main(){
-    int fd_listen, fd_accept, fd_web, ret, pid;
+    int fd_listen, fd_accept, ret, pid;
     struct sockaddr_in addr_server, addr_client;
-    char buffer[50];
     socklen_t addrlen;
 
 	// Set signal handler to prevent zombie
