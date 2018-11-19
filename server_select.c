@@ -60,7 +60,7 @@ int serve_http(int fd_accept)
 	// Read Request Header
 	ret = read(fd_accept, buffer, BUFSIZE);
 	if(ret <= 0) {
-		perror("Read Reqest");
+		perror("Read Request");
 		return -1;
 	}
 	buffer[ret] = '\0';
@@ -118,11 +118,10 @@ int serve_http(int fd_accept)
 	// Send Response HTTP Header
 	sprintf(buffer, "HTTP/1.0 200 OK\r\nContent-Type: %s\r\n\r\n", type);
 	send(fd_accept, buffer, strlen(buffer), 0);
-	
+
 	while((ret = read(file_fd, buffer, sizeof(buffer))) > 0){
 		send(fd_accept, buffer, ret, 0);
 	}
-	close(file_fd);
 	return 0;
 }
 
@@ -187,8 +186,8 @@ int main(){
 							fd_max = fd_accept;
 					} else {
 						serve_http(i);
+						close(i);
 						FD_CLR(i, &allfds);
-						sleep(5);
 					}
 				}
 			}
