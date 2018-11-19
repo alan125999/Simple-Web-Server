@@ -20,7 +20,7 @@ ${DIR_BIN}/server_fork:${OBJ}
 	$(CC) $(subst server_select,,${OBJ}) -o ${BIN_TARGET}
 
 ${DIR_OBJ}/%.o:${DIR_SRC}/%.c
-    $(CC) $(CFLAGS) -c  $< -o $@
+	$(CC) $(CFLAGS) -c  $< -o $@
 
 clean: 
 	rm -rf ${DIR_OBJ}
