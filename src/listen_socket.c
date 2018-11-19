@@ -1,9 +1,11 @@
+#include <stdio.h>
+#include <strings.h>
 #include <netinet/in.h>
+#include <arpa/inet.h>
 
+#include "listen_socket.h"
 
-#include "create_socket.h"
-
-int create_socket(int port) {
+int listen_socket(int port) {
     int fd_listen, ret;
     struct sockaddr_in addr_server;
 

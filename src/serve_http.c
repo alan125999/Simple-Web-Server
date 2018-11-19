@@ -101,6 +101,5 @@ int serve_http(int fd_accept)
 		send(fd_accept, buffer, ret, 0);
 	}
 	close(file_fd);
-	close(fd_accept);
 	return 0;
 }
