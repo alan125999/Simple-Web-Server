@@ -126,9 +126,9 @@ int serve_http(int fd_accept)
 }
 
 int main(){
-    int fd_listen, fd_accept, addrlen, fd_web, ret, pid, fd_max ,i;
+    int fd_listen, fd_accept, ret, fd_max ,i;
     struct sockaddr_in addr_server, addr_client;
-    char buffer[50];
+	socklen_t addrlen;
 	fd_set readfds, allfds;
 
     // Create socket
