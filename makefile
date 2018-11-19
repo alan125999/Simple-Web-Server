@@ -4,20 +4,23 @@ CFLAGS := -Wall
 DIR_SRC := ./src
 DIR_OBJ := ./obj
 DIR_BIN := ./bin
-
+DIR_CREATE := ${DIR_OBJ} ${DIR_BIN}
 SRC = $(wildcard ${DIR_SRC}/*.c)  
 OBJ = $(patsubst %.c,${DIR_OBJ}/%.o,$(notdir ${SRC})) 
 
 TARGET = server_fork server_select
 BIN_TARGET = $(patsubst %,${DIR_BIN}/%,${TARGET})
 
-all: ${BIN_TARGET}
+all: ${DIR_CREATE} ${BIN_TARGET} 
+
+${DIR_CREATE}:
+	mkdir $@
+	
+${DIR_BIN}/server_fork:${OBJ}
+	$(CC) $(subst server_select,,${OBJ}) -o ${BIN_TARGET}
 
 ${DIR_BIN}/server_select:${OBJ}
 	$(CC) $(subst server_fork,,${OBJ}) -o ${BIN_TARGET}
-
-${DIR_BIN}/server_fork:${OBJ}
-	$(CC) $(subst server_select,,${OBJ}) -o ${BIN_TARGET}
 
 ${DIR_OBJ}/%.o:${DIR_SRC}/%.c
 	$(CC) $(CFLAGS) -c  $< -o $@
