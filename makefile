@@ -17,10 +17,10 @@ ${DIR_CREATE}:
 	mkdir $@
 
 ${DIR_BIN}/server_fork:${OBJ}
-	$(CC) $(subst ${DIR_SRC}/server_select.o,,${OBJ}) -o $@
+	$(CC) $(subst ${DIR_OBJ}/server_select.o,,${OBJ}) -o $@
 
 ${DIR_BIN}/server_select:${OBJ}
-	$(CC) $(subst ${DIR_SRC}/server_fork.o,,${OBJ}) -o $@
+	$(CC) $(subst ${DIR_OBJ}/server_fork.o,,${OBJ}) -o $@
 
 ${DIR_OBJ}/%.o:${DIR_SRC}/%.c
 	$(CC) $(CFLAGS) -c  $< -o $@
