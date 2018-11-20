@@ -6,23 +6,20 @@
 
 #include "serve_http.h"
 #include "listen_socket.h"
+#include "configs.h"
 
-#define PORT 8787
-
-int main(){
+int main(int argc, char *argv[]){
     int fd_listen, fd_accept, ret, fd_max ,i;
     struct sockaddr_in addr_client;
 	socklen_t addrlen;
 	fd_set readfds, allfds;
+	struct myconfig_t conf;
 
-	// Set Workspace
-    if(chdir("../site") == -1) {
-        perror("chdir");
-        return -1;
-    }
+	// configuration
+    if(args_to_config(argc, argv, &conf) < 0) return -1;
 
     // Create socket
-    fd_listen=listen_socket(PORT);
+    fd_listen=listen_socket(conf.port);
     if(fd_listen < 0) return -1;
 	
 	// Init fd set
