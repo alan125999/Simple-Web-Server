@@ -1,34 +1,44 @@
+### Environment ###
+# Set Compiler
 CC := gcc
 CFLAGS := -Wall
 
+# Directories
 DIR_SRC := ./src
-DIR_OBJ := ./obj
+DIR_OBJ := ./build
 DIR_BIN := ./bin
+
+# Targets
+TARGETS = server_fork server_select
+
+### Parse ###
 DIR_CREATE := ${DIR_OBJ} ${DIR_BIN}
-SRC = $(wildcard ${DIR_SRC}/*.c)  
-OBJ = $(patsubst %.c,${DIR_OBJ}/%.o,$(notdir ${SRC})) 
+SRC = $(wildcard ${DIR_SRC}/*.c)
+OBJ_TARGETS = $(patsubst %, ${DIR_OBJ}/%.o, ${TARGETS})
+OBJ = $(filter-out ${OBJ_TARGETS}, $(patsubst %.c, ${DIR_OBJ}/%.o, $(notdir ${SRC})))
+BIN = $(patsubst %, ${DIR_BIN}/%, ${TARGETS})
 
-TARGET = server_fork server_select
-BIN_TARGET = $(patsubst %,${DIR_BIN}/%,${TARGET})
+### Rules ###
+all: ${DIR_CREATE} ${BIN} 
 
-all: ${DIR_CREATE} ${BIN_TARGET} 
-
+# Create Directories if not exsit
 ${DIR_CREATE}:
 	mkdir $@
 
-${DIR_BIN}/server_fork:${OBJ}
-	$(CC) $(subst ${DIR_OBJ}/server_select.o,,${OBJ}) -o $@
-
-${DIR_BIN}/server_select:${OBJ}
-	$(CC) $(subst ${DIR_OBJ}/server_fork.o,,${OBJ}) -o $@
-
-${DIR_OBJ}/%.o:${DIR_SRC}/%.c
+# Compile
+${DIR_OBJ}/%.o: ${DIR_SRC}/%.c
 	$(CC) $(CFLAGS) -c  $< -o $@
 
+# Link
+${DIR_BIN}/%: ${DIR_OBJ}/%.o ${OBJ}
+	$(CC) $^ -o $@
+
+# Remove Object Files
 clean: 
 	rm -rf ${DIR_OBJ}
 
+# Remove All Files Compiled
 distclean: clean
-	rm -rf ${DIR_BIN}
+	rm -rf ${DIR_BIN} ${DIR_OBJ}
 
 .PHONY: all clean distclean

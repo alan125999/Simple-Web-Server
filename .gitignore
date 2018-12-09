@@ -58,4 +58,4 @@ dkms.conf
 bin/
 
 # obj
-obj/
+build/
